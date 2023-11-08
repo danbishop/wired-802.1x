@@ -42,10 +42,10 @@ name=$(nmcli -t -f NAME,TYPE connection show --active|grep -ethernet|cut -d ":" 
 uuid=$(nmcli -t -f UUID,TYPE connection show --active|grep -ethernet|cut -d ":" -f1)
 interfacename=$(nmcli -t -f DEVICE,TYPE connection show --active|grep -ethernet|cut -d ":" -f1)
 
-# echo "Disabling network connection..."
-# nmcli connection down "$name"
+echo "Disabling network connection..."
+nmcli connection down "$name"
 
-# sleep 5
+#sleep 2
 
 echo "Applying network settings..."
 nmcli con modify "$name" 802-1x.eap peap\
@@ -55,5 +55,5 @@ nmcli con modify "$name" 802-1x.eap peap\
  802-1x.ca-cert "/etc/ssl/certs/Comodo_AAA_Services_root.pem"\
  802-1x.anonymous-identity "@york.ac.uk"
 
-# echo "Re-enabling network connection..."
-# nmcli connection up "$name"
+echo "Re-enabling network connection..."
+nmcli connection up "$name"
