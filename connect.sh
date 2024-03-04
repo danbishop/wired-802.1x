@@ -1,5 +1,20 @@
 #!/bin/bash
 
+# Check connected to Campus network but unauthenticated...
+#ip v4
+#172.17.12.67
+
+# gateway
+#172.17.12.1
+
+# DNS
+# All requests appear to be routed to this
+#144.32.128.110
+# e.g. PING google.co.uk (144.32.128.110) - resolves to 144.32 address... maybe this is the way to check
+
+# On Board URL
+#https://onboard.york.ac.uk/enroll/UoY/Production/process
+
 # Get password
 echo -n York Password: 
 read -s password
@@ -17,7 +32,7 @@ else
     con-name "eduroam"\
     ssid "eduroam"\
     wifi-sec.key-mgmt "wpa-eap"\
-    802-1x.identity "drb502@york.ac.uk"\
+    802-1x.identity "$USER@york.ac.uk"\
     802-1x.password "$password"\
     802-1x.ca-cert "/etc/ssl/certs/Comodo_AAA_Services_root.pem"\
     802-1x.domain-suffix-match "york.ac.uk"\
@@ -49,7 +64,7 @@ nmcli connection down "$name"
 
 echo "Applying network settings..."
 nmcli con modify "$name" 802-1x.eap peap\
- 802-1x.identity drb502@york.ac.uk\
+ 802-1x.identity $USER@york.ac.uk\
  802-1x.phase2-auth mschapv2\
  802-1x.password "$password"\
  802-1x.ca-cert "/etc/ssl/certs/Comodo_AAA_Services_root.pem"\
